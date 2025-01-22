@@ -1,4 +1,3 @@
-import os
 from subprocess import run
 
 from logikal_utils.download import download
@@ -43,5 +42,5 @@ class EdgeBrowser(ChromiumBrowser, WebDriver):
     service_class = Service
 
     # See https://github.com/SeleniumHQ/selenium/issues/14660
-    height_offset = 78 if 'GITHUB_ACTIONS' not in os.environ else 77
+    height_offset = 78
     width_offset = 8
