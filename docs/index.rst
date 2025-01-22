@@ -32,8 +32,8 @@ browser versions that should be used in your ``pyproject.toml`` file:
 .. code-block:: toml
 
     [tool.browser.versions]
-    chrome = '130.0.6723.69'
-    edge = '129.0.2792.65'
+    chrome = '132.0.6834.83'
+    edge = '132.0.2957.115'
 
 Then create the desired :class:`~logikal_browser.Browser` sub-class instance:
 
