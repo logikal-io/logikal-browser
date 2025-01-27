@@ -88,7 +88,7 @@ class BrowserVersion(ABC):
 
     @staticmethod
     def print(message: str) -> None:
-        print(f'\n{colored(message, attrs=['bold'])}', file=stderr)
+        print(colored(message, 'yellow', attrs=['bold']), file=stderr)
 
 
 class Browser(ABC, WebDriver):

@@ -1,7 +1,3 @@
-from sys import stderr
-
-from termcolor import colored
-
 from logikal_browser import Browser, BrowserVersion
 from logikal_browser.chrome import ChromeBrowser
 from logikal_browser.config import BROWSER_VERSIONS
@@ -51,12 +47,10 @@ def install_all(versions: dict[str, str] | None = None) -> dict[str, InstalledBr
     if not (versions := BROWSER_VERSIONS if versions is None else versions):
         raise RuntimeError('You must specify at least one browser version')
 
-    print(colored('Installing browsers', 'yellow', attrs=['bold']), file=stderr)
     for browser_name, version in sorted(versions.items()):
         installed_browsers[browser_name] = InstalledBrowser(
             browser_name=browser_name,
             version=version,
         )
-    print(file=stderr)  # trailing newline
 
     return installed_browsers
