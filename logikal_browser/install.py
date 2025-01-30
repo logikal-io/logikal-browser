@@ -42,7 +42,7 @@ def installed_browsers(
     install: bool = True,
 ) -> dict[str, InstalledBrowser]:
     """
-    Return a mapping of versions to installed browsers.
+    Return a mapping of browser names to installed browsers.
 
     Args:
         versions: A mapping of browser names to versions to install.
