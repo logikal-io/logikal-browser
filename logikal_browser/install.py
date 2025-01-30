@@ -11,6 +11,7 @@ class InstalledBrowser:  # pylint: disable=too-few-public-methods
     Args:
         browser_name: The name of the browser to install.
         version: The browser version to install.
+        install: Whether to install the browser if necessary.
 
     """
     BROWSERS: dict[str, type[Browser]] = {
@@ -18,7 +19,7 @@ class InstalledBrowser:  # pylint: disable=too-few-public-methods
         'edge': EdgeBrowser,
     }
 
-    def __init__(self, browser_name: str, version: str):
+    def __init__(self, browser_name: str, version: str, install: bool):
         try:
             #: The appropriate browser-specific :class:`~logikal_browser.Browser` sub-class.
             self.browser_class: type[Browser] = InstalledBrowser.BROWSERS[browser_name]
@@ -30,27 +31,35 @@ class InstalledBrowser:  # pylint: disable=too-few-public-methods
         )
         #: The installed browser-specific :class:`~logikal_browser.BrowserVersion` sub-class
         #: instance.
-        self.browser_version: BrowserVersion = browser_version_class(version=version, install=True)
+        self.browser_version: BrowserVersion = browser_version_class(
+            version=version,
+            install=install,
+        )
 
 
-def install_all(versions: dict[str, str] | None = None) -> dict[str, InstalledBrowser]:
+def installed_browsers(
+    versions: dict[str, str] | None = None,
+    install: bool = True,
+) -> dict[str, InstalledBrowser]:
     """
-    Install all specified browser versions.
+    Return a mapping of versions to installed browsers.
 
     Args:
         versions: A mapping of browser names to versions to install.
             Defaults to :data:`~logikal_browser.config.BROWSER_VERSIONS`.
+        install: Whether to install the browsers if necessary.
 
     """
-    installed_browsers: dict[str, InstalledBrowser] = {}
+    installed: dict[str, InstalledBrowser] = {}
 
     if not (versions := BROWSER_VERSIONS if versions is None else versions):
         raise RuntimeError('You must specify at least one browser version')
 
     for browser_name, version in sorted(versions.items()):
-        installed_browsers[browser_name] = InstalledBrowser(
+        installed[browser_name] = InstalledBrowser(
             browser_name=browser_name,
             version=version,
+            install=install,
         )
 
-    return installed_browsers
+    return installed
