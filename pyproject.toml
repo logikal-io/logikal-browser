@@ -40,6 +40,7 @@ packages = ['logikal_browser']
 [tool.setuptools_scm]
 
 [tool.pytest.ini_options]
+addopts = '-p no:logikal_browser'
 DJANGO_SETTINGS_MODULE = 'tests.website.settings'
 
 [tool.browser.versions]
