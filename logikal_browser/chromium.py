@@ -65,6 +65,8 @@ class ChromiumBrowser(Browser):
 
         options = self.options_class()
         options.binary_location = str(self.version.path)
+        preferences = {'download.default_directory': str(self.download_path)}
+        options.add_experimental_option('prefs', preferences)
         if self.settings.mobile:
             args.append('--hide-scrollbars')
         for arg in args:

@@ -101,6 +101,7 @@ class Browser(ABC, WebDriver):
         headless: Whether to run in headless mode.
         screenshot_path: The path where screenshots are stored.
         screenshot_tmp_path: The temporary path to use for screenshots.
+        download_path: The path to use for downloads.
 
     """
     height_offset = 0  # correction for https://github.com/SeleniumHQ/selenium/issues/14660
@@ -114,6 +115,7 @@ class Browser(ABC, WebDriver):
         headless: bool = True,
         screenshot_path: Path = Path('screenshot'),
         screenshot_tmp_path: Path | None = None,
+        download_path: Path | None = None,
         **kwargs: Any,
     ):
         self.version = version or self.version_class()
@@ -129,6 +131,8 @@ class Browser(ABC, WebDriver):
             screenshot_tmp_path or tmp_path('logikal_browser', suffix='image')
         )
         logger.debug(f'Using screenshot temporary path "{self.screenshot_tmp_path}/"')
+        self.download_path = download_path or tmp_path('logikal_browser', suffix='downloads')
+        logger.debug(f'Using download path "{self.download_path}/"')
 
         super().__init__(**{**kwargs, **self.init_args()})
 
@@ -234,8 +238,29 @@ class Browser(ABC, WebDriver):
             poll_frequency: Sleep interval between checks.
 
         """
+        logger.debug(f'Waiting for element "{value}" to be present')
         wait = WebDriverWait(driver=self, timeout=timeout_seconds, poll_frequency=poll_frequency)
         wait.until(expected_conditions.presence_of_element_located((by, value)))
+
+    def wait_for_download(
+        self,
+        name: str,
+        timeout_seconds: int = 60,
+        poll_frequency: float = 0.5,
+    ) -> None:
+        """
+        Wait until a file with a given name is downloaded.
+
+        Args:
+            name: The name of the file to wait for.
+            timeout_seconds: The maximal time to wait.
+            poll_frequency: Sleep interval between checks.
+
+        """
+        file_path = self.download_path / name
+        logger.debug(f'Waiting for file "{file_path}" to download')
+        wait = WebDriverWait(driver=self, timeout=timeout_seconds, poll_frequency=poll_frequency)
+        wait.until(lambda *_: file_path.exists())
 
     def login(self, user: Any, force: bool = True) -> None:
         """

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Downloads{% endblock %}
+{% block body %}
+  <h1>Downloads</h1>
+  <a href="{% static 'downloads/words.txt' %}" id="download-words" download>words.txt</a>
+{% endblock %}
