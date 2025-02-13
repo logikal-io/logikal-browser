@@ -1,4 +1,5 @@
 from dataclasses import replace
+from pathlib import Path
 
 from pytest import mark, raises
 from pytest_factoryboy import register
@@ -65,10 +66,21 @@ def test_replace_text(live_url: LiveURL, browser: Browser) -> None:
     browser.check('replace_text')
 
 
-def test_wait(live_url: LiveURL, browser: Browser) -> None:
+def test_wait_for_element(live_url: LiveURL, browser: Browser) -> None:
     browser.get(live_url())
     browser.wait_for_element(By.CSS_SELECTOR, 'h1')
-    browser.check('wait')
+    browser.check('wait_for_element')
+
+
+def test_wait_for_download(live_url: LiveURL, browser: Browser) -> None:
+    browser.get(live_url('downloads'))
+    browser.check('downloads')
+    browser.find_element(By.ID, 'download-words').click()
+    browser.wait_for_download('words.txt')
+    file_path = browser.download_path / 'words.txt'
+    expected_file_path = Path(__file__).parents[1] / 'website/static/downloads/words.txt'
+    assert file_path.exists()
+    assert file_path.read_text() == expected_file_path.read_text()
 
 
 def test_login(live_url: LiveURL, browser: Browser, user: User) -> None:
