@@ -54,11 +54,11 @@ def save_image_prompt(
     if not sys.stdin.isatty():
         error_lines = [
             f'{message} and this is not an interactive session (consider using --live)',
-            f'  Actual: file://{source}',
-            f'  Expected: file://{destination}',
+            f'  Actual: {source.as_uri()}',
+            f'  Expected: {destination.as_uri()}',
         ]
         if difference:
-            error_lines.append(f'  Difference: file://{difference}')
+            error_lines.append(f'  Difference: {difference.as_uri()}')
         raise AssertionError('\n'.join(error_lines))
     try:
         short_destination = destination.relative_to(os.getcwd())
@@ -80,7 +80,7 @@ def save_image_prompt(
         else:
             raise AssertionError('Image opening canceled')
     else:
-        print(f'{prompt}See file://{source}')
+        print(f'{prompt}See {source.as_uri()}')
 
     response = input(f'{prompt}Type "accept" to accept this version or press "enter" to reject: ')
     if response == 'accept':
@@ -88,4 +88,4 @@ def save_image_prompt(
         copy(source, destination)
         logger.info(f'Image saved at "{short_destination}"')
     else:
-        raise AssertionError(f'Image rejected (file://{source})')
+        raise AssertionError(f'Image rejected ({source.as_uri()})')
