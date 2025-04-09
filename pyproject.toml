@@ -7,13 +7,12 @@ name = 'logikal-browser'
 description = 'Common browser automation utilities'
 readme = 'README.rst'
 requires-python = '~= 3.12'
-license = {file = 'LICENSE.txt'}
+license = 'MIT'
 authors = [{name = 'Logikal GmbH', email = 'contact@logikal.io'}]
 keywords = ['selenium']
 classifiers = [
   'Development Status :: 5 - Production/Stable',
   'Intended Audience :: Developers',
-  'License :: OSI Approved :: MIT License',
   'Operating System :: POSIX :: Linux',
   'Programming Language :: Python :: 3',
   'Programming Language :: Python :: 3.12',
@@ -47,12 +46,11 @@ DJANGO_SETTINGS_MODULE = 'tests.website.settings'
 chrome = '132.0.6834.83'
 edge = '132.0.2957.115'
 
-[[tool.mypy.overrides]]
-ignore_missing_imports = true
-module = ['factory.*']
+[tool.mypy]
+untyped_calls_exclude = ['factory']
 
 [tool.coverage.report]
-omit = ['browser.py']
+omit = ['browser.py']  # used for testing headed browser
 exclude_lines = [
   'pragma: no cover',
   '\.\.\.',  # exclude abstract methods
