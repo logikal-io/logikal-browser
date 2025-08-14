@@ -43,8 +43,8 @@ addopts = '-p no:logikal_browser'
 DJANGO_SETTINGS_MODULE = 'tests.website.settings'
 
 [tool.browser.versions]
-chrome = '132.0.6834.83'
-edge = '132.0.2957.115'
+chrome = '139.0.7258.68'
+edge = '139.0.3405.86'
 
 [tool.mypy]
 untyped_calls_exclude = ['factory']
