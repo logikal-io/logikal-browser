@@ -170,7 +170,7 @@ class Browser(ABC, WebDriver):
             'document.documentElement.offsetHeight',
         ]
         script = f'return Math.max({','.join(elements)});'
-        height = self.execute_script(script)  # type: ignore[no-untyped-call]
+        height = self.execute_script(script)
         logger.debug(f'Calculated page height: {height}')
         self._set_settings_window_size(height=height)
         try:
@@ -194,7 +194,7 @@ class Browser(ABC, WebDriver):
         expected = self.screenshot_path.with_name(full_name).with_suffix('.png')
 
         script = 'document.body.style.caretColor = "transparent";'  # hide the blinking caret
-        self.execute_script(script)  # type: ignore[no-untyped-call]
+        self.execute_script(script)
 
         with self.auto_height(wait_milliseconds=wait_milliseconds):
             logger.debug('Taking screenshot')
@@ -219,7 +219,7 @@ class Browser(ABC, WebDriver):
 
         """
         script = f'arguments[0].innerHTML = "{text}";'
-        self.execute_script(script, element)  # type: ignore[no-untyped-call]
+        self.execute_script(script, element)
 
     def wait_for_element(
         self,

@@ -27,7 +27,7 @@ class EdgeVersion(BrowserVersion):
 
         if not self.driver_path.exists():
             self.print(f'Installing Microsoft Edge WebDriver {self.driver_version}')
-            url = f'https://msedgedriver.azureedge.net/{self.version}/edgedriver_linux64.zip'
+            url = f'https://msedgedriver.microsoft.com/{self.version}/edgedriver_linux64.zip'
             tmp = tmp_path('logikal_browser', suffix=self.driver_name)
             unzip(download(url, tmp / 'edgedriver.zip'))
             move(tmp / 'edgedriver', self.driver_path.parent)
