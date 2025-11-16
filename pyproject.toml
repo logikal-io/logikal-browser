@@ -38,8 +38,8 @@ packages = ['logikal_browser']
 
 [tool.setuptools_scm]
 
-[tool.pytest.ini_options]
-addopts = '-p no:logikal_browser'
+[tool.pytest]
+addopts = ['-p no:logikal_browser']
 DJANGO_SETTINGS_MODULE = 'tests.website.settings'
 
 [tool.browser.versions]
@@ -51,7 +51,3 @@ untyped_calls_exclude = ['factory']
 
 [tool.coverage.report]
 omit = ['browser.py']  # used for testing headed browser
-exclude_lines = [
-  'pragma: no cover',
-  '\.\.\.',  # exclude abstract methods
-]
