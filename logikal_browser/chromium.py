@@ -47,6 +47,8 @@ class ChromiumBrowser(Browser):
             '--disable-search-engine-choice-screen',
             '--propagate-iph-for-testing',
             '--autoplay-policy=user-gesture-required',
+            '--wm-window-animations-disabled',
+            '--force-prefers-reduced-motion',
             # Deterministic rendering (see https://issues.chromium.org/issues/40039960#comment29)
             '--disable-partial-raster',
             '--disable-skia-runtime-opts',
