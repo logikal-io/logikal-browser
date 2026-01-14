@@ -55,7 +55,7 @@ class ChromiumBrowser(Browser):
         ]
         if os.getenv('DOCKER_RUN') == '1':  # pragma: no cover
             args += ['--no-sandbox']
-        if self.headless:
+        if self.settings.headless:
             args += [
                 '--headless=new',
                 '--in-process-gpu',  # memory saving
