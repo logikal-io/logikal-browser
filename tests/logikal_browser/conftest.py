@@ -13,7 +13,6 @@ class GetBrowserFixture(Protocol):
         self,
         settings: Settings = ...,
         browser_class: type[Browser] = ...,
-        headless: bool = ...,
     ) -> Browser:
         ...
 
@@ -23,11 +22,10 @@ def get_browser(tmp_path: Path) -> GetBrowserFixture:
     def get_browser_wrapper(
         settings: Settings = desktop.settings,
         browser_class: type[Browser] = ChromeBrowser,
-        headless: bool = True,
     ) -> Browser:
         return browser_class(
             settings=settings,
-            headless=headless,
+            language='en-us',
             screenshot_path=Path(__file__).parent / 'screenshots/test',
             screenshot_tmp_path=tmp_path,
         )

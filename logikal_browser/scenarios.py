@@ -13,6 +13,7 @@ class Settings:
         height: Browser window height.
         full_page_height: Whether to use the full page height for screenshots.
         mobile: Whether it is a mobile browser.
+        headless: Whether to run in headless mode.
 
     """
     name: str
@@ -20,6 +21,7 @@ class Settings:
     height: int
     full_page_height: bool = True
     mobile: bool = False
+    headless: bool = True
 
 
 @dataclass
@@ -29,11 +31,13 @@ class Scenario:
 
     Args:
         settings: Settings to use.
-        browsers: Browsers to use. Defaults to using all configured browser versions.
+        browsers: Browsers to use. Defaults to using all configured browsers.
+        languages: Languages to use. Defaults to using all configured languages.
 
     """
     settings: Settings | Iterable[Settings]
     browsers: Iterable[str] | None = None
+    languages: Iterable[str] | None = None
 
 
 @dataclass
