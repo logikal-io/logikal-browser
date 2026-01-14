@@ -44,8 +44,8 @@ def test_difference(tmp_path: Path, mocker: MockerFixture) -> None:
     mocker.patch('logikal_browser.utils.sys.stdin.isatty', return_value=False)
     screenshots = Path(__file__).parent / 'screenshots'
 
-    actual = screenshots / 'test_check_perennrose_desktop_chrome.png'
-    expected = screenshots / 'test_check_nincs-ido_desktop_chrome.png'
+    actual = screenshots / 'test_check_perennrose_desktop_en-us_chrome.png'
+    expected = screenshots / 'test_check_nincs-ido_desktop_en-us_chrome.png'
     with raises(AssertionError, match='differs'):
         utils.assert_image_equal(actual.read_bytes(), expected, image_tmp_path=tmp_path)
 
