@@ -98,7 +98,7 @@ class Browser(ABC, WebDriver):
     Args:
         settings: The browser settings to use.
         version: The browser version to use.
-        headless: Whether to run in headless mode.
+        language: The currently active language.
         screenshot_path: The path where screenshots are stored.
         screenshot_tmp_path: The temporary path to use for screenshots.
         download_path: The path to use for downloads.
@@ -112,7 +112,7 @@ class Browser(ABC, WebDriver):
         *,
         settings: Settings,
         version: BrowserVersion | None = None,
-        headless: bool = True,
+        language: str | None = None,
         screenshot_path: Path = Path('screenshot'),
         screenshot_tmp_path: Path | None = None,
         download_path: Path | None = None,
@@ -122,9 +122,9 @@ class Browser(ABC, WebDriver):
         logger.debug(f'Browser version: {repr(self.version)}')
         self.settings = settings
         logger.debug(f'Browser settings: {self.settings}')
-        self.headless = headless
-        if self.headless:
-            logger.debug('Running in headless mode')
+        self.language = language
+        if self.language:
+            logger.debug(f'Currently active language: {self.language}')
         self.screenshot_path = screenshot_path
         logger.debug(f'Using screenshot path "{self.screenshot_path}/"')
         self.screenshot_tmp_path = (
@@ -189,7 +189,13 @@ class Browser(ABC, WebDriver):
                 for unlimited height checks.
 
         """
-        name_parts = [self.screenshot_path.name, self.version.name, self.settings.name, name]
+        name_parts = [
+            self.screenshot_path.name,
+            name,
+            self.settings.name,
+            self.language,
+            self.version.name,
+        ]
         full_name = '_'.join(part for part in name_parts if part is not None)
         expected = self.screenshot_path.with_name(full_name).with_suffix('.png')
 
