@@ -98,7 +98,7 @@ class Browser(ABC, WebDriver):
     Args:
         settings: The browser settings to use.
         version: The browser version to use.
-        language: The currently active language.
+        language: The browser language to use.
         screenshot_path: The path where screenshots are stored.
         screenshot_tmp_path: The temporary path to use for screenshots.
         download_path: The path to use for downloads.
@@ -124,7 +124,7 @@ class Browser(ABC, WebDriver):
         logger.debug(f'Browser settings: {self.settings}')
         self.language = language
         if self.language:
-            logger.debug(f'Currently active language: {self.language}')
+            logger.debug(f'Browser language: {self.language}')
         self.screenshot_path = screenshot_path
         logger.debug(f'Using screenshot path "{self.screenshot_path}/"')
         self.screenshot_tmp_path = (
