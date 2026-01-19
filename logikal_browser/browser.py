@@ -297,20 +297,20 @@ class Browser(ABC, WebDriver):
             'value': request.session.session_key,
         })
 
-    def pause_videos(self) -> None:
+    def stop_videos(self) -> None:
         self.execute_script("""
-                            const videos = document.querySelectorAll('video');            
-                            videos.forEach(video => {
-                                video.pause();
-                                video.currentTime = 0.00;
-                                video.removeAttribute('controls');
-                            });
-                            """)
+            const videos = document.querySelectorAll('video');            
+            videos.forEach(video => {
+                video.pause();
+                video.currentTime = 0.00;
+                video.removeAttribute('controls');
+            });
+            """)
 
-    def stop_slideshows(self) -> None:
+    def stop_slideshows(self, value: str) -> None:
         self.execute_script("""
-                            const slideshows = document.querySelectorAll('.hero-slideshow');
-                            slideshows.forEach(slideshow => {
-                            slideshow.style.animation = '0s';
-                            });
-                            """)
+            const slideshows = document.querySelectorAll(""" + value + """);
+            slideshows.forEach(slideshow => {
+            slideshow.style.animation = '0s';
+            });
+            """)

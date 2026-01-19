@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Video Test{% endblock %}
+{% block body %}
+  <h1>Video Page</h1>
+  <video class="video" autoplay muted loop playsinline controls>
+    <source src="../static/downloads/test.mp4"
+                type="video/mp4">
+  </video>
+{% endblock %}
