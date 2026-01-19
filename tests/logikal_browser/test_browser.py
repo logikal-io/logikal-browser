@@ -1,11 +1,9 @@
-import time
 from dataclasses import replace
 from pathlib import Path
 
 from pytest import mark, raises
 from pytest_factoryboy import register
-from pytest_logikal.browser import set_browser
-from pytest_logikal.django import LiveURL, all_languages
+from pytest_logikal.django import LiveURL
 from pytest_mock import MockerFixture
 from selenium.webdriver.common.by import By
 
