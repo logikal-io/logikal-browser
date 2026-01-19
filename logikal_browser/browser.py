@@ -312,6 +312,7 @@ class Browser(ABC, WebDriver):
 
     def stop_slideshows(self, value: str) -> None:
         """
+        Stop slideshows from playing.
 
         Args:
             value: The css class name of the slideshow to stop.
