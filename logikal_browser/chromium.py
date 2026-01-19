@@ -54,6 +54,8 @@ class ChromiumBrowser(Browser):
         ]
         if os.getenv('DOCKER_RUN') == '1':  # pragma: no cover
             args += ['--no-sandbox']
+        if self.language:
+            args += [f'--lang={self.language}']
         if self.settings.headless:
             args += [
                 '--headless=new',
