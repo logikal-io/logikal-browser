@@ -298,8 +298,11 @@ class Browser(ABC, WebDriver):
         })
 
     def stop_videos(self) -> None:
+        """
+        Stop videos from autoplaying and remove controls.
+        """
         self.execute_script("""
-            const videos = document.querySelectorAll('video');            
+            const videos = document.querySelectorAll('video');           
             videos.forEach(video => {
                 video.pause();
                 video.currentTime = 0.00;
@@ -308,8 +311,14 @@ class Browser(ABC, WebDriver):
             """)
 
     def stop_slideshows(self, value: str) -> None:
+        """
+
+        Args:
+            value: The css class name of the slideshow to stop.
+
+        """
         self.execute_script("""
-            const slideshows = document.querySelectorAll(""" + value + """);
+            const slideshows = document.querySelectorAll(.""" + value + """);
             slideshows.forEach(slideshow => {
             slideshow.style.animation = '0s';
             });
