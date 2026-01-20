@@ -33,7 +33,7 @@ class EdgeVersion(BrowserVersion):
             move(tmp / 'edgedriver', self.driver_path.parent)
 
 
-class EdgeBrowser(ChromiumBrowser, WebDriver):
+class EdgeBrowser(ChromiumBrowser, WebDriver):  # pylint: disable=too-many-ancestors
     """
     Microsoft Edge WebDriver.
     """

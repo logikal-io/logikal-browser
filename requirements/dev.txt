@@ -2,5 +2,5 @@
 -r build.txt
 -r docs.txt
 
-pytest-logikal[django]==5.1.10
+pytest-logikal[django]==6.0.1
 django-stubs

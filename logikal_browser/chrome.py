@@ -27,7 +27,7 @@ class ChromeVersion(BrowserVersion):
             move(tmp / 'chromedriver/chromedriver-linux64', self.driver_path.parent)
 
 
-class ChromeBrowser(ChromiumBrowser, WebDriver):
+class ChromeBrowser(ChromiumBrowser, WebDriver):  # pylint: disable=too-many-ancestors
     """
     Google Chrome WebDriver.
     """
