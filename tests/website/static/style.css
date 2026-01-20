@@ -67,6 +67,5 @@ p { margin: 1em 0; }
 
 @keyframes slideshow {
   0% { background-image: url('media/slideshow1.jpg'); }
-
   100% { background-image: url('media/slideshow2.jpg'); }
 }
