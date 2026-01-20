@@ -310,17 +310,13 @@ class Browser(ABC, WebDriver):
             });
         """)
 
-    def stop_slideshows(self, value: str) -> None:
+    def stop_slideshows(self, css_selector: str) -> None:
         """
         Stop slideshows from playing.
-
-        Args:
-            value: The css selector of the slideshow.
-
         """
         self.execute_script(f"""
-            const slideshows = document.querySelectorAll('{value}');
+            const slideshows = document.querySelectorAll('{css_selector}');
             slideshows.forEach(slideshow => {{
-            slideshow.style.animation = '0s';
+                slideshow.style.animation = '0s';
             }});
         """)
