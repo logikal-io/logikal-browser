@@ -96,3 +96,15 @@ def test_login(live_url: LiveURL, browser: Browser, user: User) -> None:
 def test_login_error(browser: Browser, user: User) -> None:
     with raises(NotImplementedError, match='Only the forced login is implemented'):
         browser.login(user, force=False)
+
+
+def test_stop_videos(live_url: LiveURL, browser: Browser) -> None:
+    browser.get(live_url('video'))
+    browser.stop_videos()
+    browser.check('video')
+
+
+def test_stop_slideshows(live_url: LiveURL, browser: Browser) -> None:
+    browser.get(live_url('slideshow'))
+    browser.stop_slideshows('.slideshow')
+    browser.check('slideshow')

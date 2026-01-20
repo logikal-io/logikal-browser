@@ -296,3 +296,27 @@ class Browser(ABC, WebDriver):
             'name': settings.SESSION_COOKIE_NAME,
             'value': request.session.session_key,
         })
+
+    def stop_videos(self) -> None:
+        """
+        Stop videos from autoplaying and remove controls.
+        """
+        self.execute_script("""
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                video.pause();
+                video.currentTime = 0.00;
+                video.removeAttribute('controls');
+            });
+        """)
+
+    def stop_slideshows(self, css_selector: str) -> None:
+        """
+        Stop slideshows from playing.
+        """
+        self.execute_script(f"""
+            const slideshows = document.querySelectorAll('{css_selector}');
+            slideshows.forEach(slideshow => {{
+                slideshow.style.animation = '0s';
+            }});
+        """)
