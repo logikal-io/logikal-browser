@@ -12,5 +12,5 @@ logging.basicConfig(
 )
 
 browser = ChromeBrowser(settings=replace(desktop.settings, headless=False))
-browser.get('https://slab.logikal.io')
+browser.get('https://github.com/logikal-io/')
 input('Press <ENTER> to stop the program... ')
