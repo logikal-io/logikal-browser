@@ -318,7 +318,7 @@ class Browser(ABC, WebDriver):
             value: The css selector of the slideshow.
 
         """
-        self.execute_script("""
+        self.execute_script(f"""
             const slideshows = document.querySelectorAll('{value}');
             slideshows.forEach(slideshow => {{
             slideshow.style.animation = '0s';
