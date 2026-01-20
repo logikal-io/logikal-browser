@@ -308,19 +308,16 @@ class Browser(ABC, WebDriver):
                 video.currentTime = 0.00;
                 video.removeAttribute('controls');
             });
-        """)
+            """)
 
     def stop_slideshows(self, value: str) -> None:
         """
         Stop slideshows from playing.
 
         Args:
-            value: The css class name of the slideshow to stop.
+            value: The css selector of the slideshow.
 
         """
-        self.execute_script("""
-            const slideshows = document.querySelectorAll(.""" + value + """);
-            slideshows.forEach(slideshow => {
-            slideshow.style.animation = '0s';
-            });
-            """)
+        self.execute_script(f'const slideshows = document.querySelectorAll("{value}");'
+                            f'slideshows.forEach(slideshow => {{'
+                            f'slideshow.style.animation = \'0s\';}});')

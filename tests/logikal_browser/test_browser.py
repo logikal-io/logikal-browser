@@ -106,5 +106,5 @@ def test_stop_videos(live_url: LiveURL, browser: Browser) -> None:
 
 def test_stop_slideshows(live_url: LiveURL, browser: Browser) -> None:
     browser.get(live_url('slideshow'))
-    browser.stop_slideshows('hero-slideshow')
+    browser.stop_slideshows('.hero-slideshow')
     browser.check('slideshow')
