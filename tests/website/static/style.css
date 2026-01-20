@@ -61,7 +61,7 @@ p { margin: 1em 0; }
   overflow: hidden;
   transition: all 0.3s;
   backface-visibility: hidden;
-  animation: hero-slideshow 12s infinite;
+  animation: slideshow 12s infinite;
   background-image: url('media/slideshow1.jpg');
 }
 

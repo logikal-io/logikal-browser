@@ -308,7 +308,7 @@ class Browser(ABC, WebDriver):
                 video.currentTime = 0.00;
                 video.removeAttribute('controls');
             });
-            """)
+        """)
 
     def stop_slideshows(self, value: str) -> None:
         """
@@ -323,4 +323,4 @@ class Browser(ABC, WebDriver):
             slideshows.forEach(slideshow => {{
             slideshow.style.animation = '0s';
             }});
-            """)
+        """)
