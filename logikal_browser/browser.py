@@ -302,7 +302,7 @@ class Browser(ABC, WebDriver):
         Stop videos from autoplaying and remove controls.
         """
         self.execute_script("""
-            const videos = document.querySelectorAll('video');           
+            const videos = document.querySelectorAll('video');
             videos.forEach(video => {
                 video.pause();
                 video.currentTime = 0.00;
