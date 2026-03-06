@@ -42,5 +42,5 @@ class EdgeBrowser(ChromiumBrowser, WebDriver):  # pylint: disable=too-many-ances
     service_class = Service
 
     # See https://github.com/SeleniumHQ/selenium/issues/14660
-    height_offset = 78
+    height_offset = 84
     width_offset = 8
