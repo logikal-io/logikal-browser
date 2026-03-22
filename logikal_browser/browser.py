@@ -12,6 +12,7 @@ from typing import Any
 from logikal_utils.path import tmp_path
 from logikal_utils.testing import hide_traceback
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from termcolor import colored
@@ -151,16 +152,7 @@ class Browser(ABC, WebDriver):
         logger.debug(f'Setting window size to width "{width}" height "{height}"')
         self.set_window_size(width, height)
 
-    @contextmanager
-    def auto_height(self, wait_milliseconds: int | None) -> Iterator[None]:
-        if not self.settings.full_page_height:
-            yield
-            return
-        logger.debug('Using full page height')
-        self._set_settings_window_size()
-        if wait_milliseconds:  # we use a small delay to mitigate height flakiness
-            logger.debug(f'Waiting {wait_milliseconds} ms')
-            sleep(wait_milliseconds / 1000)
+    def _document_height(self) -> int:
         elements = [
             'document.body.clientHeight',
             'document.body.scrollHeight',
@@ -169,8 +161,22 @@ class Browser(ABC, WebDriver):
             'document.documentElement.scrollHeight',
             'document.documentElement.offsetHeight',
         ]
-        script = f'return Math.max({','.join(elements)});'
-        height = self.execute_script(script)
+        return int(self.execute_script(f'return Math.max({','.join(elements)});'))
+
+    @contextmanager
+    def auto_height(
+        self,
+        wait_milliseconds: int | None = None,
+    ) -> Iterator[None]:
+        if not self.settings.full_page_height:
+            yield
+            return
+        logger.debug('Using full page height')
+        self._set_settings_window_size()
+        if wait_milliseconds:  # we use a small delay to mitigate height flakiness
+            logger.debug(f'Waiting {wait_milliseconds} ms')
+            sleep(wait_milliseconds / 1000)
+        height = self._document_height()
         logger.debug(f'Calculated page height: {height}')
         self._set_settings_window_size(height=height)
         try:
@@ -179,12 +185,18 @@ class Browser(ABC, WebDriver):
             self._set_settings_window_size()
 
     @hide_traceback
-    def check(self, name: str | None = None, wait_milliseconds: int | None = 100) -> None:
+    def check(
+        self,
+        name: str | None = None,
+        element: WebElement | None = None,
+        wait_milliseconds: int | None = 100,
+    ) -> None:
         """
         Create a screenshot and check it against an expected version.
 
         Args:
             name: The name of the check.
+            element: The element to take a screenshot of.
             wait_milliseconds: The milliseconds to wait before calculating the screenshot height
                 for unlimited height checks.
 
@@ -202,11 +214,12 @@ class Browser(ABC, WebDriver):
         script = 'document.body.style.caretColor = "transparent";'  # hide the blinking caret
         self.execute_script(script)
 
+        message = 'Taking element screenshot' if element else 'Taking screenshot'
         with self.auto_height(wait_milliseconds=wait_milliseconds):
-            logger.debug('Taking screenshot')
+            logger.debug(message)
             # Note: we are disabling debug remote logs because they contain the verbose image data
             logging.getLogger('selenium.webdriver.remote').setLevel(logging.INFO)
-            actual = self.get_screenshot_as_png()
+            actual = element.screenshot_as_png if element else self.get_screenshot_as_png()
             logging.getLogger('selenium.webdriver.remote').setLevel(logging.DEBUG)
 
         assert_image_equal(
