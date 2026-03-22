@@ -33,8 +33,14 @@ def test_check(
     browser = get_browser(browser_class=browser_class)
     browser.get('https://www.sofia.hu/konyv/hamori-zsofia/nincs-ido')
     browser.check('check_nincs-ido')
+    article = browser.find_element(By.TAG_NAME, 'article')
+    browser.check('check_nincs-ido_element', element=article)
+    opinion = article.find_element(By.CLASS_NAME, 'book-opinion')
+    browser.check('check_nincs-ido_element_small', element=opinion)
+
     browser.get('https://www.sofia.hu/konyv/hamori-zsofia/perennrose')
     browser.check('check_perennrose')
+
     browser.get(live_url())
     browser.check('check_website')
 
