@@ -1,4 +1,4 @@
-from logikal_utils.project import PYPROJECT
+from logikal_utils.project import tool_config
 
 #: The available browser versions as specified in the ``tool.browser.versions`` section in
 #: ``pyproject.toml``.
@@ -8,4 +8,4 @@ from logikal_utils.project import PYPROJECT
 #:  * `Chrome <https://googlechromelabs.github.io/chrome-for-testing/#stable>`_
 #:  * `Edge <https://learn.microsoft.com/en-us/deployedge/microsoft-edge-relnote-stable-channel>`_
 #:  * `Edge WebDriver <https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver>`_
-BROWSER_VERSIONS = PYPROJECT.get('tool', {}).get('browser', {}).get('versions', {})
+BROWSER_VERSIONS = tool_config('browser').get('versions', {})
