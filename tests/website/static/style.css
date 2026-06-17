@@ -17,6 +17,8 @@
 
   --theme-background: #ffffff;
   --theme-text: #000000;
+  --theme-text-active: #5b33d6;
+  --theme-text-highlight: #38198e;
 }
 
 /* Page */
@@ -51,6 +53,16 @@ h1 {
 }
 
 p { margin: 1em 0; }
+
+a {
+  text-decoration: none;
+  color: var(--theme-text-active);
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--theme-text-highlight);
+  }
+}
 
 .slideshow {
   height: 50rem;

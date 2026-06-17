@@ -11,6 +11,7 @@ from typing import Any
 
 from logikal_utils.path import tmp_path
 from logikal_utils.testing import hide_traceback
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
@@ -239,6 +240,16 @@ class Browser(ABC, WebDriver):
         """
         script = f'arguments[0].innerHTML = "{text}";'
         self.execute_script(script, element)
+
+    def hover(self, element: Any) -> None:
+        """
+        Activate the "hover" state of an element.
+
+        Args:
+            element: The element to use.
+
+        """
+        ActionChains(self).move_to_element(element).perform()
 
     def wait_for_element(
         self,

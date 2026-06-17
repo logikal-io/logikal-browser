@@ -72,6 +72,14 @@ def test_replace_text(live_url: LiveURL, browser: Browser) -> None:
     browser.check('replace_text')
 
 
+def test_hover(live_url: LiveURL, browser: Browser) -> None:
+    browser.get(live_url('downloads'))
+    link = browser.find_element(By.CSS_SELECTOR, 'a')
+    browser.check('hover_before')
+    browser.hover(link)
+    browser.check('hover')
+
+
 def test_wait_for_element(live_url: LiveURL, browser: Browser) -> None:
     browser.get(live_url())
     browser.wait_for_element(By.CSS_SELECTOR, 'h1')
