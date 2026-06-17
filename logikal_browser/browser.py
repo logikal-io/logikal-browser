@@ -229,7 +229,7 @@ class Browser(ABC, WebDriver):
             image_tmp_path=self.screenshot_tmp_path,
         )
 
-    def replace_text(self, element: Any, text: str) -> None:
+    def replace_text(self, element: WebElement, text: str) -> None:
         """
         Replace the text of an element.
 
@@ -241,7 +241,7 @@ class Browser(ABC, WebDriver):
         script = f'arguments[0].innerHTML = "{text}";'
         self.execute_script(script, element)
 
-    def hover(self, element: Any) -> None:
+    def hover(self, element: WebElement) -> None:
         """
         Activate the "hover" state of an element.
 
