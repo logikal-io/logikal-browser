@@ -69,15 +69,19 @@ a {
 .hover-test {
   min-height: 800px;
 
-  button {
-    margin-top: 500px; /* browser height is 400px, we move the button outside of the viewport */
+  button, #shadow-root::part(button) {
     padding: 1rem 2rem;
     border: 0;
     font: inherit;
     background: var(--theme-button-background);
     color: var(--theme-background);
+  }
 
-    &:hover { background: var(--theme-button-background-highlight); }
+  button { margin-top: 500px; } /* browser height is 400px, move the button outside of viewport */
+  #shadow-root::part(button) { margin-top: 1rem; }
+
+  button:hover, #shadow-root::part(button):hover { /* nesting via `&` does not work with part() */
+    background: var(--theme-button-background-highlight);
   }
 }
 

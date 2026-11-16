@@ -86,13 +86,24 @@ def test_hover_resize(live_url: LiveURL, get_browser: GetBrowserFixture) -> None
     browser.get(live_url('hover'))
     browser.check('before_hover')
 
+    # Button
     button = browser.find_element(By.CSS_SELECTOR, 'button')
     browser.hover(button)
     browser.check('after_hover')
     browser.settings = replace(settings, full_page_height=True)
     browser.check('after_hover_full_height', retain_hover=True)
     browser.settings = replace(settings, full_page_height=False)
-    browser.check('after_hover', retain_hover=True)
+    browser.check('after_hover')
+
+    # Button in shadow root
+    shadow_root_element = browser.find_element(By.ID, 'shadow-root')
+    shadow_button = shadow_root_element.shadow_root.find_element(By.CSS_SELECTOR, 'button')
+    browser.hover(shadow_button)
+    browser.check('shadow_after_hover')
+    browser.settings = replace(settings, full_page_height=True)
+    browser.check('shadow_after_hover_full_height', retain_hover=True)
+    browser.settings = replace(settings, full_page_height=False)
+    browser.check('shadow_after_hover')
 
 
 def test_wait_for_element(live_url: LiveURL, browser: Browser) -> None:
