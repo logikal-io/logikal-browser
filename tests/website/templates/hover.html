@@ -5,5 +5,10 @@
   <main class="hover-test">
     <h1>Hover Test Page</h1>
     <button type="button">Test</button>
+    <div id="shadow-root">
+      <template shadowrootmode="open">
+        <button type="button" part="button">Shadow Test</button>
+      </template>
+    </div>
   </main>
 {% endblock %}

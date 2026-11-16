@@ -177,8 +177,15 @@ class Browser(ABC, WebDriver):
 
         # Retrieve the hovered element when necessary
         hovered_element = self.execute_script("""
-            const elements = document.querySelectorAll(':hover');
-            return elements.length ? elements[elements.length - 1] : null;
+            let root = document;
+            let hovered = null;
+            while (root) {
+                const elements = root.querySelectorAll(':hover');
+                if (!elements.length) break;
+                hovered = elements[elements.length - 1];
+                root = hovered.shadowRoot;
+            }
+            return hovered;
         """) if retain_hover else None
 
         # Adjust the window to settings height
