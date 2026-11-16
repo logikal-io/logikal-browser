@@ -80,6 +80,21 @@ def test_hover(live_url: LiveURL, browser: Browser) -> None:
     browser.check('hover')
 
 
+def test_hover_resize(live_url: LiveURL, get_browser: GetBrowserFixture) -> None:
+    settings = replace(scenarios.desktop.settings, height=400, full_page_height=False)
+    browser = get_browser(settings=settings)
+    browser.get(live_url('hover'))
+    browser.check('before_hover')
+
+    button = browser.find_element(By.CSS_SELECTOR, 'button')
+    browser.hover(button)
+    browser.check('after_hover')
+    browser.settings = replace(settings, full_page_height=True)
+    browser.check('after_hover_full_height')
+    browser.settings = replace(settings, full_page_height=False)
+    browser.check('after_hover')
+
+
 def test_wait_for_element(live_url: LiveURL, browser: Browser) -> None:
     browser.get(live_url())
     browser.wait_for_element(By.CSS_SELECTOR, 'h1')
@@ -120,5 +135,5 @@ def test_stop_videos(live_url: LiveURL, browser: Browser) -> None:
 
 def test_stop_slideshows(live_url: LiveURL, browser: Browser) -> None:
     browser.get(live_url('slideshow'))
-    browser.stop_slideshows('.slideshow')
+    browser.stop_slideshows('.slideshow-test')
     browser.check('slideshow')

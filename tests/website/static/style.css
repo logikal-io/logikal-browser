@@ -19,6 +19,8 @@
   --theme-text: #000000;
   --theme-text-active: #5b33d6;
   --theme-text-highlight: #38198e;
+  --theme-button-background: #622ade;
+  --theme-button-background-highlight: #060338;
 }
 
 /* Page */
@@ -64,7 +66,22 @@ a {
   }
 }
 
-.slideshow {
+.hover-test {
+  min-height: 800px;
+
+  button {
+    margin-top: 500px; /* browser height is 400px, we move the button outside of the viewport */
+    padding: 1rem 2rem;
+    border: 0;
+    font: inherit;
+    background: var(--theme-button-background);
+    color: var(--theme-background);
+
+    &:hover { background: var(--theme-button-background-highlight); }
+  }
+}
+
+.slideshow-test {
   height: 50rem;
   width: 100%;
   margin-top: 50px;
@@ -73,11 +90,11 @@ a {
   overflow: hidden;
   transition: all 0.3s;
   backface-visibility: hidden;
-  animation: slideshow 12s infinite;
+  animation: slideshow-test 12s infinite;
   background-image: url('media/slideshow1.jpg');
 }
 
-@keyframes slideshow {
+@keyframes slideshow-test {
   0% { background-image: url('media/slideshow1.jpg'); }
   100% { background-image: url('media/slideshow2.jpg'); }
 }
