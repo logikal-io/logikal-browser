@@ -173,6 +173,10 @@ class Browser(ABC, WebDriver):
             yield
             return
         logger.debug('Using full page height')
+        hovered = self.execute_script("""
+            const elements = document.querySelectorAll(':hover');
+            return elements.length ? elements[elements.length - 1] : null;
+        """)
         self._set_settings_window_size()
         if wait_milliseconds:  # we use a small delay to mitigate height flakiness
             logger.debug(f'Waiting {wait_milliseconds} ms')
@@ -181,9 +185,13 @@ class Browser(ABC, WebDriver):
         logger.debug(f'Calculated page height: {height}')
         self._set_settings_window_size(height=height)
         try:
+            if hovered is not None:
+                self.hover(hovered)
             yield
         finally:
             self._set_settings_window_size()
+            if hovered is not None:
+                self.hover(hovered)
 
     @hide_traceback
     def check(
