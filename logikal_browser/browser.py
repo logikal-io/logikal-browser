@@ -168,30 +168,40 @@ class Browser(ABC, WebDriver):
     def auto_height(
         self,
         wait_milliseconds: int | None = None,
+        retain_hover: bool | None = None,
     ) -> Iterator[None]:
         if not self.settings.full_page_height:
             yield
             return
         logger.debug('Using full page height')
-        hovered = self.execute_script("""
+
+        # Retrieve the hovered element when necessary
+        hovered_element = self.execute_script("""
             const elements = document.querySelectorAll(':hover');
             return elements.length ? elements[elements.length - 1] : null;
-        """)
+        """) if retain_hover else None
+
+        # Adjust the window to settings height
         self._set_settings_window_size()
-        if wait_milliseconds:  # we use a small delay to mitigate height flakiness
+
+        # Use a small delay to mitigate height flakiness
+        if wait_milliseconds:
             logger.debug(f'Waiting {wait_milliseconds} ms')
             sleep(wait_milliseconds / 1000)
+
+        # Calculate and adjust window to full height
         height = self._document_height()
         logger.debug(f'Calculated page height: {height}')
         self._set_settings_window_size(height=height)
         try:
-            if hovered is not None:
-                self.hover(hovered)
+            if hovered_element is not None:
+                self.hover(hovered_element)
             yield
         finally:
+            # Restore the window to settings height
             self._set_settings_window_size()
-            if hovered is not None:
-                self.hover(hovered)
+            if hovered_element is not None:
+                self.hover(hovered_element)
 
     @hide_traceback
     def check(
@@ -199,6 +209,7 @@ class Browser(ABC, WebDriver):
         name: str | None = None,
         element: WebElement | None = None,
         wait_milliseconds: int | None = 100,
+        retain_hover: bool = False,
     ) -> None:
         """
         Create a screenshot and check it against an expected version.
@@ -208,6 +219,7 @@ class Browser(ABC, WebDriver):
             element: The element to take a screenshot of.
             wait_milliseconds: The milliseconds to wait before calculating the screenshot height
                 for unlimited height checks.
+            retain_hover: Whether to retain the hover state during unlimited height checks.
 
         """
         name_parts = [
@@ -224,7 +236,7 @@ class Browser(ABC, WebDriver):
         self.execute_script(script)
 
         message = 'Taking element screenshot' if element else 'Taking screenshot'
-        with self.auto_height(wait_milliseconds=wait_milliseconds):
+        with self.auto_height(wait_milliseconds=wait_milliseconds, retain_hover=retain_hover):
             logger.debug(message)
             # Note: we are disabling debug remote logs because they contain the verbose image data
             logging.getLogger('selenium.webdriver.remote').setLevel(logging.INFO)
