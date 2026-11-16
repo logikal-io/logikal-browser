@@ -167,8 +167,8 @@ class Browser(ABC, WebDriver):
     @contextmanager
     def auto_height(
         self,
-        wait_milliseconds: int | None = None,
         retain_hover: bool | None = None,
+        wait_milliseconds: int | None = None,
     ) -> Iterator[None]:
         if not self.settings.full_page_height:
             yield
@@ -208,8 +208,8 @@ class Browser(ABC, WebDriver):
         self,
         name: str | None = None,
         element: WebElement | None = None,
-        wait_milliseconds: int | None = 100,
         retain_hover: bool = False,
+        wait_milliseconds: int | None = 100,
     ) -> None:
         """
         Create a screenshot and check it against an expected version.
@@ -217,9 +217,9 @@ class Browser(ABC, WebDriver):
         Args:
             name: The name of the check.
             element: The element to take a screenshot of.
+            retain_hover: Whether to retain the hover state during unlimited height checks.
             wait_milliseconds: The milliseconds to wait before calculating the screenshot height
                 for unlimited height checks.
-            retain_hover: Whether to retain the hover state during unlimited height checks.
 
         """
         name_parts = [
@@ -236,7 +236,7 @@ class Browser(ABC, WebDriver):
         self.execute_script(script)
 
         message = 'Taking element screenshot' if element else 'Taking screenshot'
-        with self.auto_height(wait_milliseconds=wait_milliseconds, retain_hover=retain_hover):
+        with self.auto_height(retain_hover=retain_hover, wait_milliseconds=wait_milliseconds):
             logger.debug(message)
             # Note: we are disabling debug remote logs because they contain the verbose image data
             logging.getLogger('selenium.webdriver.remote').setLevel(logging.INFO)
